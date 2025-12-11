@@ -4,7 +4,7 @@ fresh=[]
 cut= lines.index("\n")
 fresh_counter=0
 
-list_of_fresh= lines[:cut-1]
+list_of_fresh= lines[:cut]
 test_if_fresh= lines[cut+1:]
 
 for r in list_of_fresh:
