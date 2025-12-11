@@ -7,3 +7,9 @@ So, remember:
 3. constructive criticism is always appreciated
 
    current number of stars: ⭐️5/20
+
+   Puzzles solved:
+   D1 P1
+   D3 P1
+   D6 P1
+   D7 P1+P2
