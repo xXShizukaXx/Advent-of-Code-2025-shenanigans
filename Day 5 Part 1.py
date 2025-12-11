@@ -21,5 +21,5 @@ for i in range(len(test_if_fresh)):
 
         if int(ranges[0])<=test and test<=int(ranges[1]):
             fresh_counter+=1
-            test_if_fresh.remove(test)
+            break
 print(fresh_counter)
