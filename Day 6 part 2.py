@@ -3,6 +3,7 @@
 #but it's okay...NEVER BACK DOWN; NEVER WHAT??
 #okay...I've literally got everything I need...it's just a hot mess and THAT'S why it doesn't work
 import itertools
+import math
 file=open("Day 6/D6 test data.txt", "r")
 lines= [line.rstrip() for line in file.readlines()]
 sum=0
@@ -22,14 +23,14 @@ def transpose[T](arr: list[list[T]]): #shoutout to Arkadios (again) for teaching
 def parsing_1(l): #yes, this used to be arkadios_will_be_proud_of_me() sorry arkadios I need an overview sobbbb
     i=0
     for line in l[:-1]:
-        line= line.split(" ", len(line)) #converts strings into lists by splitting them by spaces
+        line= line.split(" ") #converts strings into lists by splitting them by spaces
         line = list(filter(lambda c: c!="", line)) #gets rid of blank spaces
         line=list(map(lambda line: [str(int(c)) for c in line], line))  #turns every single sequence into its own list. for example, '123' becomes '1','2','3'
         l[i]=line   #places new list of lists into the big list TM
         i+=1
     operators= l[(len(l)-1)]
     l.remove(operators) #remove from the big list
-    operators=operators.split(" ", len(operators)) #since last string consists of symbols, its parsing is done separately; but still following the same principle
+    operators=operators.split(" ") #since last string consists of symbols, its parsing is done separately; but still following the same principle
     operators = list(filter(lambda c: c!="", operators))
     return [l, operators] #ok I got my values...NEXT
 
@@ -58,18 +59,19 @@ def parsing_2(m): #the second part focuses on the actual transposing yada yada
     return a
 
 def calc(numbers, operators):
+    sum=0
     for i in range(len(operators)):
-               temp=1
-               for k in range(len(numbers[i])):
-                    if operators[i]=='+':
-                        sum+=numbers[i][j]
-                    else:
-                         temp*=numbers[i][j]
-                         sum+=temp
+            temp=0
+            if operators[i]=='+':
+                for j in range(len(numbers[i])): temp+=numbers[i][j]
+            else:
+                temp=math.prod(numbers[i])
+            sum+=temp
     return sum
                  
 
-init= parsing_1(lines)[0]
+init= parsing_1(lines.copy())[0]
+op=parsing_1(lines.copy())[1]
 numbers= parsing_2(init)
-op=parsing_1(lines)[1]
-print(init)
+
+print(calc(numbers, op))
