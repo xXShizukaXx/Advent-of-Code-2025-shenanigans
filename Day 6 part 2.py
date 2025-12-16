@@ -1,7 +1,7 @@
 #meeee? losing my mind...??? HAHAHAHAHAHAHAHAHAA-
 import itertools
 file= open("Day 6/D6 my data.txt", "r")
-lines=[line.rstrip() for line in file.readlines()]
+lines= [line.replace("\n"," ") for line in file.readlines()]
 
 def transpose[T](arr: list[list[T]]): #yk the drill by now...shoutout to arkadios
     for row in arr: assert(len(row))==len(arr[0]) #check if all rows are, indeed, of the same length
@@ -30,28 +30,6 @@ def parse_part_1(l):
     l=transpose(l)
     return l
 
-def parse_part_2(l):
-    values=parse_part_1(l)
-    a=[]
-    b=[]
-    for numbers in values:
-        first=len(numbers[0]) #precondition: the nth value WILL follow the pattern of the first three <-CAP!!!
-        second=len(numbers[1])
-        third=len(numbers[2])
-        b.append(numbers[-1])
-        if ((first>second) and (second>third)) or (first<second and second<=third):
-            for digits in numbers[:-1]:
-                digits.reverse()
-        new = list(itertools.zip_longest(*numbers, fillvalue='')) 
-        a.append(new)
-
-    for numbers in a:
-        for i in range(len(numbers)):
-            numbers[i]= list_to_int(list(numbers[i])[:-1])
-    return [a,b]
-
-#ok....THIS IS THE MOMENT WE'VE BEEN WAITING FOR
-
 def calc_part_2(l,m):
     sum=0
     for i in range(len(m)):
@@ -64,12 +42,41 @@ def calc_part_2(l,m):
             for j in range(len(l[i])): sum+=l[i][j]
     return(sum)
 
-        
+#ok no IGNORE ALL OF THAT
+#NEW APPROACH (shoutout to the subreddit)
 
+def PLEASEWORK(l):
+    sum=0
+    operators=l[-1]+' '
+    helper=[]
+    t=1
+    save=''
+    for i in range(len(l[0])):
+        temp=''
+        for n in l[:-1]: 
+            temp+= n[i]
+            o=operators[i]
+            if o=='*': save='*'
+            elif o=='+': save='+'
+        temp=temp.rstrip()
+        if temp != '':
+            number=int(temp)
+            helper.append(number)
+        else:
+            if save=='+':
+                for i in range(len(helper)):
+                    sum+=helper[i]
+            elif save=='*':
+                temp=1
+                for i in range(len(helper)):
+                    temp*=helper[i]
+                sum+=temp
+            helper=[]
+            save=''
+    return sum
 
-a,b= parse_part_2(lines)
-print(calc_part_2(a,b))
+print(PLEASEWORK(lines))
 
-numbers= parsing_2(init)
+#IT WORKS
+#WAR IS OVER
 
-print(calc(numbers, op))
