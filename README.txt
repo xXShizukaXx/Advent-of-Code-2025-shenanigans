@@ -6,13 +6,13 @@ So, remember:
 2. my code can and will be flawed. If you are someone who has more experience than me or simply has ideas, feel free to share them with me!
 3. constructive criticism is always appreciated
 
-   current number of stars: ⭐️7/20
+   current number of stars: ⭐️8/20
 
    Puzzles solved:
    ⭐D1 P1
    ⭐D3 P1
    ⭐D5 P1
-   ⭐D6 P1
+   ⭐D6 P1+P2
    ⭐D7 P1+P2
    ⭐D12
    
