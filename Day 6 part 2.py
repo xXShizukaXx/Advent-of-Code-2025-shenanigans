@@ -35,7 +35,7 @@ def parse_part_2(l):
     a=[]
     b=[]
     for numbers in values:
-        first=len(numbers[0]) #precondition: the nth value WILL follow the pattern of the first three
+        first=len(numbers[0]) #precondition: the nth value WILL follow the pattern of the first three <-CAP!!!
         second=len(numbers[1])
         third=len(numbers[2])
         b.append(numbers[-1])
