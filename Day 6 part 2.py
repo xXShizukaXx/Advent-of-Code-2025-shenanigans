@@ -1,18 +1,10 @@
-#deep breath in...deep breath out
-#stupid octopus math...
-#but it's okay...NEVER BACK DOWN; NEVER WHAT??
-#okay...I've literally got everything I need...it's just a hot mess and THAT'S why it doesn't work
+#meeee? losing my mind...??? HAHAHAHAHAHAHAHAHAA-
 import itertools
-import math
-file=open("Day 6/D6 test data.txt", "r")
-lines= [line.rstrip() for line in file.readlines()]
-sum=0
-#this code....is a HOT mess
-#but that's okay...because it's MY hot mess
-#step...by...step
+file= open("Day 6/D6 my data.txt", "r")
+lines=[line.rstrip() for line in file.readlines()]
 
-def transpose[T](arr: list[list[T]]): #shoutout to Arkadios (again) for teaching me this lol
-    for row in arr[:-1]: assert(len(row))==len(arr[0]) #check if all rows are, indeed, oof the same length
+def transpose[T](arr: list[list[T]]): #yk the drill by now...shoutout to arkadios
+    for row in arr: assert(len(row))==len(arr[0]) #check if all rows are, indeed, of the same length
 
     out=[]
     for j in range(len(arr[0])):
@@ -20,58 +12,64 @@ def transpose[T](arr: list[list[T]]): #shoutout to Arkadios (again) for teaching
 
     return out
 
-def parsing_1(l): #yes, this used to be arkadios_will_be_proud_of_me() sorry arkadios I need an overview sobbbb
+def list_to_int(lst):
+    number= 0
+    lst = list(filter(lambda c: c!="", lst))
+    for i in range(len(lst)):
+        number= number*10+lst[i]
+    return number
+
+def parse_part_1(l):
     i=0
     for line in l[:-1]:
-        line= line.split(" ") #converts strings into lists by splitting them by spaces
-        line = list(filter(lambda c: c!="", line)) #gets rid of blank spaces
-        line=list(map(lambda line: [str(int(c)) for c in line], line))  #turns every single sequence into its own list. for example, '123' becomes '1','2','3'
-        l[i]=line   #places new list of lists into the big list TM
+        line=line.split()
+        line=list(map(lambda line: [int(c) for c in line], line))
+        l[i]=line
         i+=1
-    operators= l[(len(l)-1)]
-    l.remove(operators) #remove from the big list
-    operators=operators.split(" ") #since last string consists of symbols, its parsing is done separately; but still following the same principle
-    operators = list(filter(lambda c: c!="", operators))
-    return [l, operators] #ok I got my values...NEXT
+    l[-1]=l[-1].split()
+    l=transpose(l)
+    return l
 
-def parsing_2(m): #the second part focuses on the actual transposing yada yada
-    b=transpose(m)
+def parse_part_2(l):
+    values=parse_part_1(l)
     a=[]
-
-    for operations in b:
-        if (len(operations[1])==len(operations[2])) and len(operations[1])<=len(operations[0]) or (len(operations[0])<=len(operations[1]) and len(operations[1])<len(operations[2])):
-            new = list(itertools.zip_longest(*operations, fillvalue=''))
-        else:
-             for values in operations[:-1]:
-                  values.reverse() #ofc! flip them!!
-             new = list(itertools.zip_longest(*operations, fillvalue=''))
+    b=[]
+    for numbers in values:
+        first=len(numbers[0]) #precondition: the nth value WILL follow the pattern of the first three
+        second=len(numbers[1])
+        third=len(numbers[2])
+        b.append(numbers[-1])
+        if ((first>second) and (second>third)) or (first<second and second<=third):
+            for digits in numbers[:-1]:
+                digits.reverse()
+        new = list(itertools.zip_longest(*numbers, fillvalue='')) 
         a.append(new)
-    
-    for element in a:
-            i=0
-            for tup in element:
-                my_number=''
-                for j in range (len(tup)): my_number+= tup[j]
-                my_number=int(my_number)
-                element[i]=my_number
-                i+=1
-                #print(element)
-    return a
 
-def calc(numbers, operators):
+    for numbers in a:
+        for i in range(len(numbers)):
+            numbers[i]= list_to_int(list(numbers[i])[:-1])
+    return [a,b]
+
+#ok....THIS IS THE MOMENT WE'VE BEEN WAITING FOR
+
+def calc_part_2(l,m):
     sum=0
-    for i in range(len(operators)):
-            temp=0
-            if operators[i]=='+':
-                for j in range(len(numbers[i])): temp+=numbers[i][j]
-            else:
-                temp=math.prod(numbers[i])
+    for i in range(len(m)):
+        temp=1
+        if m[i]=='*':
+            for j in range(len(l[i])):
+                temp*=l[i][j]
             sum+=temp
-    return sum
-                 
+        else: 
+            for j in range(len(l[i])): sum+=l[i][j]
+    return(sum)
 
-init= parsing_1(lines.copy())[0]
-op=parsing_1(lines.copy())[1]
+        
+
+
+a,b= parse_part_2(lines)
+print(calc_part_2(a,b))
+
 numbers= parsing_2(init)
 
 print(calc(numbers, op))
